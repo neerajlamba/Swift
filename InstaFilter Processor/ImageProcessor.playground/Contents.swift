@@ -18,7 +18,7 @@ class Filter {
 }
 
 
-func swapImageColor(var pixel: Pixel, option: Int) -> Pixel {
+func swapColor(var pixel: Pixel, option: Int) -> Pixel {
     if(option == 0) {
         let temp = pixel.red
         pixel.red = pixel.green
@@ -34,9 +34,9 @@ func swapImageColor(var pixel: Pixel, option: Int) -> Pixel {
 }
 
 // Make the colorSwapper filter
-let colorSwapFilter = Filter(filter: swapImageColor, option: 0)
+let colorSwapFilter = Filter(filter: swapColor, option: 0)
 
-func removeImageColor(var pixel: Pixel, option: Int) -> Pixel {
+func removeColor(var pixel: Pixel, option: Int) -> Pixel {
     if(option == 0) {
         pixel.red = 0
     } else if(option == 1) {
@@ -49,7 +49,7 @@ func removeImageColor(var pixel: Pixel, option: Int) -> Pixel {
 }
 
 // Make the removeColorFilter
-let removeColorFilter = Filter(filter: removeImageColor, option: 0)
+let removeColorFilter = Filter(filter: removeColor, option: 0)
 
 func changeTransperency(var pixel: Pixel, transperency: Int) -> Pixel {
     pixel.alpha = UInt8(max(min(255, transperency), 0))
@@ -59,7 +59,7 @@ func changeTransperency(var pixel: Pixel, transperency: Int) -> Pixel {
 // Make the transperencyFilter
 let transperencyFilter = Filter(filter: changeTransperency, option: 210)
 
-func changeImageContrast(var pixel: Pixel, modifier: Int) -> Pixel {
+func changeContrast(var pixel: Pixel, modifier: Int) -> Pixel {
     let avgRed = 118
     let avgGreen = 98
     let avgBlue = 83
@@ -73,7 +73,7 @@ func changeImageContrast(var pixel: Pixel, modifier: Int) -> Pixel {
 }
 
 // Make the contrastFilter
-let contrastFilter = Filter(filter: changeImageContrast, option: 2)
+let contrastFilter = Filter(filter: changeContrast, option: 2)
 
 func colorSubtract(var pixel: Pixel, value: Int) -> Pixel {
     pixel.red = UInt8(value) - pixel.red
@@ -119,6 +119,21 @@ class ImageProcessor {
 // Making the image processor
 var imageProcessor: ImageProcessor = ImageProcessor()
 
+
+imageProcessor.addFilter("contrastFilter")
+imageProcessor.processImage(image!)
+
+imageProcessor.addFilter("colorSwapFilter")
+imageProcessor.processImage(image!)
+
+imageProcessor.addFilter("subtractionFilter")
+imageProcessor.processImage(image!)
+
+imageProcessor.addFilter("removeColorFilter")
+imageProcessor.processImage(image!)
+
+imageProcessor.addFilter("transperencyFilter")
+imageProcessor.processImage(image!)
 
 // Adding 5 filters
 imageProcessor.addFilter("contrastFilter")
